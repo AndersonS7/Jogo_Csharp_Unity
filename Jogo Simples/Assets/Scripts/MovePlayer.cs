@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
@@ -7,10 +9,11 @@ public class MovePlayer : MonoBehaviour
     private Rigidbody2D rb;
     private bool jump, isJumping, gameOver;
     private float movePlayer;
-    private GameObject inicialPos, mainCamera, limiteCam;
-    private Vector3 initialPosCam;
-    
+    private GameObject inicialPos, mainCamera, limiteCam, limiteCamMin;
+    private int score;
+
     public GameObject painel;
+    public Text scoreTxt;
     public int speed, jumpForce;
 
     void Start()
@@ -21,7 +24,11 @@ public class MovePlayer : MonoBehaviour
         inicialPos = GameObject.Find("InicialPos");
         mainCamera = GameObject.Find("MainCamera");
         limiteCam = GameObject.Find("limiteCam");
-        initialPosCam = mainCamera.transform.position;
+        limiteCamMin = GameObject.Find("limiteCamMin");
+
+        // mostra pontuação
+        score = PlayerPrefs.GetInt("totalScore");
+        scoreTxt.text = score.ToString();
     }
 
     void Update()
@@ -29,7 +36,7 @@ public class MovePlayer : MonoBehaviour
         Move();
         Jump();
         GameOver();
-        CheckCamPosition();
+        CamFollowPlayer();
     }
 
     // métodos unity
@@ -42,6 +49,7 @@ public class MovePlayer : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (collision.CompareTag("armadilhas"))
         {
             gameOver = true;
@@ -51,9 +59,17 @@ public class MovePlayer : MonoBehaviour
             painel.SetActive(true);
             speed = 0;
             jumpForce = 0;
+            PlayerPrefs.SetInt("totalScore", score);
+            PlayerPrefs.Save();
+            //próxima sena [SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);]
+        }
+        if (collision.CompareTag("Coin"))
+        {
+            score++;
+            scoreTxt.text = score.ToString();
         }
     }
-    
+
     // métodos próprios
     public void Move()
     {
@@ -74,22 +90,19 @@ public class MovePlayer : MonoBehaviour
         if (gameOver)
         {
             rb.position = inicialPos.transform.position;
+            mainCamera.transform.position = new Vector3(mainCamera.transform.position.x,rb.position.y+2, mainCamera.transform.position.z);
             gameOver = false;
         }
     }
     private void CamFollowPlayer()
     {
-        mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, rb.position.y, mainCamera.transform.position.z);
-    }
-    private void CheckCamPosition()
-    {
         if (rb.position.y > limiteCam.transform.position.y)
         {
-            CamFollowPlayer();
+            mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y + 0.05f, mainCamera.transform.position.z);
         }
-        else
+        else if (rb.position.y < limiteCamMin.transform.position.y)
         {
-            mainCamera.transform.position = initialPosCam;
+            mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y - 0.05f, mainCamera.transform.position.z);
         }
     }
 }
