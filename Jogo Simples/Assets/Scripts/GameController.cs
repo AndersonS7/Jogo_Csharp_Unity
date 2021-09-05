@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public void Menu()
+    public GameObject player, panel;
+    private int CurrentScene;
+
+    private void Update()
     {
-        SceneManager.LoadScene("Menu");
+        WinControll();
+        MenuWin();
     }
-    public void ChooseLevel()
-    {
-        SceneManager.LoadScene("Level");
-    }
+
+    // ==========*=============*=======
+    #region Fases
     public void Fase1()
     {
         SceneManager.LoadScene("Fase_01");
@@ -29,6 +32,15 @@ public class GameController : MonoBehaviour
     {
         SceneManager.LoadScene("Fase_04");
     }
+    #endregion
+    public void Menu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+    public void ChooseLevel()
+    {
+        SceneManager.LoadScene("Level");
+    }
     public void ResetScore()
     {
         PlayerPrefs.DeleteKey("totalScore");
@@ -40,5 +52,28 @@ public class GameController : MonoBehaviour
     public void NextFase()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void WinControll()
+    {
+        if (MovePlayer.won)
+        {
+            CurrentScene = SceneManager.GetActiveScene().buildIndex;
+
+            if (CurrentScene > 1 && CurrentScene < 6)
+            {
+                SceneManager.LoadScene(CurrentScene + 1);
+            }
+        }
+    }
+    public void MenuWin()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Home))
+        {
+            panel.SetActive(true);
+        }
+    }
+    public void ExitPanel()
+    {
+        panel.SetActive(false);
     }
 }

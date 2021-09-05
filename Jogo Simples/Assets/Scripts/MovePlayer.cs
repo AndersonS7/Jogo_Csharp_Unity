@@ -7,12 +7,13 @@ using UnityEngine;
 public class MovePlayer : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private bool jump, isJumping, gameOver;
-    private float movePlayer;
-    private GameObject inicialPos, mainCamera, limiteCam, limiteCamMin;
+    private bool jump, isJumping;
+    public static bool won, gameOver;
+    private float movePlayer, timeToBeReborn;
+    private GameObject mainCamera, limiteCam, limiteCamMin;
     private int score;
+    private Vector3 initialPos;
 
-    public GameObject painel;
     public Text scoreTxt;
     public int speed, jumpForce;
 
@@ -21,10 +22,11 @@ public class MovePlayer : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         isJumping = false;
         gameOver = false;
-        inicialPos = GameObject.Find("InicialPos");
+        won = false;
         mainCamera = GameObject.Find("MainCamera");
         limiteCam = GameObject.Find("limiteCam");
         limiteCamMin = GameObject.Find("limiteCamMin");
+        initialPos = GameObject.Find("InicialPos").transform.position;
 
         // mostra pontuação
         score = PlayerPrefs.GetInt("totalScore");
@@ -35,8 +37,8 @@ public class MovePlayer : MonoBehaviour
     {
         Move();
         Jump();
-        GameOver();
         CamFollowPlayer();
+        GameOver();
     }
 
     // métodos unity
@@ -49,18 +51,13 @@ public class MovePlayer : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
         if (collision.CompareTag("armadilhas"))
         {
             gameOver = true;
         }
         if (collision.CompareTag("win"))
         {
-            painel.SetActive(true);
-            speed = 0;
-            jumpForce = 0;
-            PlayerPrefs.SetInt("totalScore", score);
-            PlayerPrefs.Save();
+            Win();
         }
         if (collision.CompareTag("Coin"))
         {
@@ -78,19 +75,10 @@ public class MovePlayer : MonoBehaviour
     public void Jump()
     {
         jump = Input.GetButtonDown("Jump");
-        if (jump && isJumping == false)
+        if (jump && !isJumping)
         {
             isJumping = true;
             rb.AddForce(new Vector2(0, jumpForce));
-        }
-    }
-    private void GameOver()
-    {
-        if (gameOver)
-        {
-            rb.position = inicialPos.transform.position;
-            mainCamera.transform.position = new Vector3(mainCamera.transform.position.x,rb.position.y+2, mainCamera.transform.position.z);
-            gameOver = false;
         }
     }
     private void CamFollowPlayer()
@@ -102,6 +90,39 @@ public class MovePlayer : MonoBehaviour
         else if (rb.position.y < limiteCamMin.transform.position.y)
         {
             mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y - 0.05f, mainCamera.transform.position.z);
+        }
+    }
+    private void Win()
+    {
+        won = true;
+        speed = 0;
+        jumpForce = 0;
+        PlayerPrefs.SetInt("totalScore", score);
+        PlayerPrefs.Save();
+    }
+    private void GameOver()
+    {
+        if (gameOver)
+        {
+            speed = 0;
+            jumpForce = 0;
+            transform.position = initialPos;
+            //mainCamera.transform.position = new Vector3(mainCamera.transform.position.x,rb.position.y+2, mainCamera.transform.position.z);
+            ResetSkills();
+        }
+    }
+    private void ResetSkills()
+    {
+        if (gameOver)
+        {
+            timeToBeReborn = timeToBeReborn + Time.deltaTime;
+            if (timeToBeReborn >= 1.5f)
+            {
+                speed = 3;
+                jumpForce = 350;
+                gameOver = false;
+                timeToBeReborn = 0;
+            }
         }
     }
 }
