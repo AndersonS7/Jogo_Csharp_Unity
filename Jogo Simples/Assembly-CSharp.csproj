@@ -55,8 +55,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\MovePlayer.cs" />
     <Compile Include="Assets\Scripts\MoveSerra.cs" />
-    <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\DestroyCoin.cs" />
+    <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\MoveParede.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

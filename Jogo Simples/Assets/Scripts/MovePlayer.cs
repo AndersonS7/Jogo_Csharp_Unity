@@ -61,7 +61,6 @@ public class MovePlayer : MonoBehaviour
             jumpForce = 0;
             PlayerPrefs.SetInt("totalScore", score);
             PlayerPrefs.Save();
-            //próxima sena [SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);]
         }
         if (collision.CompareTag("Coin"))
         {

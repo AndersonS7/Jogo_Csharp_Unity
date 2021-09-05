@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private void Start()
-    {
-
-    }
     public void Menu()
     {
         SceneManager.LoadScene("Menu");
@@ -32,5 +28,17 @@ public class GameController : MonoBehaviour
     public void Fase4()
     {
         SceneManager.LoadScene("Fase_04");
+    }
+    public void ResetScore()
+    {
+        PlayerPrefs.DeleteKey("totalScore");
+    }
+    public void Config()
+    {
+        SceneManager.LoadScene("Config");
+    }
+    public void NextFase()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
