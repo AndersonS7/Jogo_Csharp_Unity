@@ -619,7 +619,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1002069263}
   m_OnClick:
     m_PersistentCalls:
@@ -1054,6 +1054,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1424997031}
   - component: {fileID: 1424997030}
+  - component: {fileID: 1424997032}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -1073,6 +1074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d3cf1acc1165745a36ded6576100bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   panel: {fileID: 0}
 --- !u!4 &1424997031
 Transform:
@@ -1088,6 +1090,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1424997032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424997029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf66034bb53c0bd4ab5be708a89a7b5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leveis:
+  - {fileID: 2019530103}
+  - {fileID: 1860647937}
+  - {fileID: 1002069262}
 --- !u!1 &1647577184
 GameObject:
   m_ObjectHideFlags: 0
@@ -1448,7 +1466,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1860647938}
   m_OnClick:
     m_PersistentCalls:
@@ -1581,7 +1599,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 2019530104}
   m_OnClick:
     m_PersistentCalls:

@@ -8,8 +8,8 @@ public class MovePlayer : MonoBehaviour
 {
     private Rigidbody2D rb;
     private bool jump, isJumping;
-    public static bool won, gameOver;
-    private float movePlayer, timeToBeReborn;
+    public static bool won, gameOver, wasCollected;
+    private float movePlayer;
     private GameObject mainCamera, limiteCam, limiteCamMin;
     private int score;
     private Vector3 initialPos;
@@ -17,9 +17,13 @@ public class MovePlayer : MonoBehaviour
     public Text scoreTxt;
     public int speed, jumpForce;
 
+    // animações
+    public Animator animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         isJumping = false;
         gameOver = false;
         won = false;
@@ -47,6 +51,7 @@ public class MovePlayer : MonoBehaviour
         if (collision.collider.tag == "plataforma")
         {
             isJumping = false;
+            animator.SetBool("isJump", false);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -63,6 +68,7 @@ public class MovePlayer : MonoBehaviour
         {
             score++;
             scoreTxt.text = score.ToString();
+            wasCollected = true;
         }
     }
 
@@ -71,6 +77,26 @@ public class MovePlayer : MonoBehaviour
     {
         movePlayer = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(movePlayer * speed, rb.velocity.y);
+
+        // virar lado
+        if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            transform.localScale = new Vector2(0.2f, transform.localScale.y);
+        }
+        else if(Input.GetAxisRaw("Horizontal") < 0)
+        {
+            transform.localScale = new Vector2(-0.2f, transform.localScale.y);
+        }
+
+        // animação andando 
+        if (Input.GetAxisRaw("Horizontal") != 0)
+        {
+            animator.SetBool("isRun", true);
+        }
+        else
+        {
+            animator.SetBool("isRun", false);
+        }
     }
     public void Jump()
     {
@@ -79,6 +105,7 @@ public class MovePlayer : MonoBehaviour
         {
             isJumping = true;
             rb.AddForce(new Vector2(0, jumpForce));
+            animator.SetBool("isJump", true);
         }
     }
     private void CamFollowPlayer()
@@ -99,30 +126,20 @@ public class MovePlayer : MonoBehaviour
         jumpForce = 0;
         PlayerPrefs.SetInt("totalScore", score);
         PlayerPrefs.Save();
+
+        // salva o valor da fase que foi completada
+        if (SceneManager.GetActiveScene().buildIndex > PlayerPrefs.GetInt("faseCompletada"))
+        {
+            PlayerPrefs.SetInt("faseCompletada", SceneManager.GetActiveScene().buildIndex);
+            PlayerPrefs.Save();
+        }
     }
     private void GameOver()
     {
         if (gameOver)
         {
-            speed = 0;
-            jumpForce = 0;
             transform.position = initialPos;
-            //mainCamera.transform.position = new Vector3(mainCamera.transform.position.x,rb.position.y+2, mainCamera.transform.position.z);
-            ResetSkills();
-        }
-    }
-    private void ResetSkills()
-    {
-        if (gameOver)
-        {
-            timeToBeReborn = timeToBeReborn + Time.deltaTime;
-            if (timeToBeReborn >= 1.5f)
-            {
-                speed = 3;
-                jumpForce = 350;
-                gameOver = false;
-                timeToBeReborn = 0;
-            }
+            gameOver = false;
         }
     }
 }

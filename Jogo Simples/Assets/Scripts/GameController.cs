@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
     public void ResetScore()
     {
         PlayerPrefs.DeleteKey("totalScore");
+        PlayerPrefs.DeleteKey("faseCompletada");
     }
     public void Config()
     {
