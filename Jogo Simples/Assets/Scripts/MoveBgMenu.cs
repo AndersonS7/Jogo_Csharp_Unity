@@ -25,7 +25,7 @@ public class MoveBgMenu : MonoBehaviour
     {
         time = time + Time.deltaTime;
 
-        if (time >= 2)
+        if (time >= 3)
         {
             int x = Random.Range(0, points.Length);
             nextPoint = points[x].transform.position;

@@ -17,15 +17,7 @@ public class MusicController : MonoBehaviour
         int indexMusic = Random.Range(0, musicBg.Length);
         AudioClip currentMusic = musicBg[indexMusic];
         audioSocersMusicBg.clip = currentMusic;
-
-        if (indexMusic == 0)
-        {
-            audioSocersMusicBg.volume = 0.2f;
-            audioSocersMusicBg.Play();
-        }else if (indexMusic == 1)
-        {
-            audioSocersMusicBg.volume = 0.4f;
-            audioSocersMusicBg.Play();
-        }
+        audioSocersMusicBg.volume = 0.3f;
+        audioSocersMusicBg.Play();
     }
 }

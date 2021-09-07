@@ -2062,7 +2062,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6167bbf5c9abb554d919a907cce714f1, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2174,8 +2174,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSocersMusicBg: {fileID: 1130857240}
   musicBg:
-  - {fileID: 8300000, guid: dab776c108868c442b62107bafdd0d3c, type: 3}
-  - {fileID: 8300000, guid: af2960b7cf58df34eaed8f66ec92d4dd, type: 3}
+  - {fileID: 8300000, guid: ad403fe5cb1141c4db962f01954ad170, type: 3}
+  - {fileID: 8300000, guid: f1daef00e0ecee441aeb71972eac2307, type: 3}
+  - {fileID: 8300000, guid: 607f668fe14f800458f929de9b0b241a, type: 3}
 --- !u!1001 &1147532686
 PrefabInstance:
   m_ObjectHideFlags: 0
