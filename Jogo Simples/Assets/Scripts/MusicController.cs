@@ -6,10 +6,12 @@ public class MusicController : MonoBehaviour
 {
     public AudioSource audioSocersMusicBg;
     public AudioClip[] musicBg;
+    GameObject bgm;
 
     void Start()
     {
         RandomMusic();
+        Destroy(GameObject.Find("BGM"));
     }
 
     private void RandomMusic()

@@ -33,6 +33,18 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene("Fase_04");
     }
     #endregion
+    public void Play()
+    {
+        int CurrentL = PlayerPrefs.GetInt("faseCompletada");
+        if (CurrentL < 2)
+        {
+            SceneManager.LoadScene(2);
+        }
+        else
+        {
+            SceneManager.LoadScene(CurrentL + 1);
+        }
+    }
     public void Menu()
     {
         SceneManager.LoadScene("Menu");
