@@ -12,6 +12,7 @@ public class MoveParede : MonoBehaviour
     {
         nextPos = ponto2.transform.position;
         transform.position = ponto1.transform.position;
+
     }
 
     void Update()
